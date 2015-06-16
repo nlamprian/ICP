@@ -1,0 +1,11 @@
+title: Documentation
+doc_version: 1.0.0
+url: "http://icp.paign10.me"
+
+permalink: /:categories/:title
+markdown: kramdown
+highlighter: pygments
+
+gems:
+  - jekyll-sitemap
+  - jemoji
