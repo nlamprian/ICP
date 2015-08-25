@@ -4,6 +4,7 @@ if ( BUILD_TESTS )
 
     include_directories ( ${CLUtils_INCLUDE_DIR} 
                           ${GTEST_INCLUDE_DIRS}
+                          ${RBC_INCLUDE_DIR}
                           ${OPENGL_INCLUDE_DIRS} )
 
     add_executable ( ${FNAME}_tests_reduce testsReduce.cpp )

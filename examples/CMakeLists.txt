@@ -7,6 +7,7 @@ include_directories (
     ${GLEW_INCLUDE_DIRS} 
     ${CLUtils_INCLUDE_DIR} 
     ${EIGEN_INCLUDE_DIR} 
+    ${RBC_INCLUDE_DIR}
 )
 
 add_executable ( 
