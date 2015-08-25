@@ -5,6 +5,7 @@
 <img src="http://i76.photobucket.com/albums/j16/paign10/icp_step_by_step_zps7pvd5zhn.gif" border="0" alt=" photo icp_step_by_step_zps7pvd5zhn.gif"/>
 
 Curenntly, there are two options for the rotation estimation step. One that uses **rotation matrices** and estimates the rotation by performing **Singular Value Decomposition** on the `CPU`. The other uses **unit quaternions** and estimates the rotation based on the **Power Method**. The rest of the computational load is executed exclusively on the `GPU`. Both resulting pipelines are able to perform one `%ICP iteration` in about `1.1 millisecond`, for input sets of `|F|=|M|=16384` landmarks and `|R|=256` representative points.
+<br><br>
 
 # Note
 <hr>

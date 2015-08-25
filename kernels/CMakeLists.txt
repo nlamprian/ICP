@@ -12,3 +12,5 @@ foreach ( SRC ${KERNEL_SRCS} )
     )
 
 endforeach ( SRC )
+
+install ( DIRECTORY ${PROJECT_SOURCE_DIR}/kernels/ DESTINATION include/ICP/kernels/ICP FILES_MATCHING PATTERN "*.cl" )

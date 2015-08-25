@@ -7,10 +7,10 @@
 #  FREENECT_freenect_LIBRARY, where to find the FREENECT library.
 
 FIND_PATH(FREENECT_INCLUDE_DIR libfreenect.h
-  /usr/include/libfreenect
   /usr/local/include
   /usr/local/include/libfreenect
   /usr/include
+  /usr/include/libfreenect
 )
 
 FIND_LIBRARY(FREENECT_freenect_LIBRARY freenect
