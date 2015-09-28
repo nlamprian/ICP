@@ -3,7 +3,7 @@
 
 ![cover](http://i76.photobucket.com/albums/j16/paign10/icp_step_by_step_zps7pvd5zhn.gif)
 
-Curenntly, there are two options for the rotation estimation step. One that uses **rotation matrices** and estimates the rotation by performing **Singular Value Decomposition** on the `CPU`. The other uses **unit quaternions** and estimates the rotation based on the **Power Method**. The rest of the computational load is executed exclusively on the `GPU`. Both resulting pipelines are able to perform one **ICP iteration** in about `1.1 millisecond`, for input sets of `|F|=|M|=16384` landmarks and `|R|=256` representative points.
+Currently, there are two options for the rotation estimation step. One that uses **rotation matrices** and estimates the rotation by performing **Singular Value Decomposition** on the `CPU`. The other uses **unit quaternions** and estimates the rotation based on the **Power Method**. The rest of the computational load is executed exclusively on the `GPU`. Both resulting pipelines are able to perform one **ICP iteration** in about `1.1 millisecond`, for input sets of `|F|=|M|=16384` landmarks and `|R|=256` representative points.
 
 # Note
 The project was developed and tested on `Ubuntu 14.04.2`, on a system with an `AMD R9 270X` GPU.
@@ -18,7 +18,7 @@ The project has dependencies on the [CLUtils](https://github.com/pAIgn10/CLUtils
 All these dependencies are automatically downloaded by cmake, if they are not available on your system. Please note that you'll have to [configure Mercurial](http://eigen.tuxfamily.org/index.php?title=Mercurial) before Eigen is downloaded.
 
 # Examples
-There is one application, `kinect_frame_grabber` that is able to capture point clouds from Kinect (you'll have to install [libfreenect](https://github.com/OpenKinect/libfreenect) to build it), and another one, `icp_step_by_step`, that visualizes the process of frame-to-frame registration, step by step.
+There are three applications. `kinect_frame_grabber` that is able to capture point clouds from Kinect (you'll have to install [libfreenect](https://github.com/OpenKinect/libfreenect) to build it). `icp_step_by_step` visualizes the process of frame-to-frame registration, step by step. `icp_registration` presents how to set up the ICP pipeline.
 
 # Compilation
 
@@ -38,15 +38,15 @@ make
 # optionally, capture a pair of point clouds
 ./bin/kinect_frame_grabber -f -s left
 ./bin/kinect_frame_grabber -f -s right
-# to run the example (from the build directory!)
+# to run the examples (from the build directory!)
 ./bin/icp_step_by_step
 # or if you recorded your own pair of point clouds
 ./bin/icp_step_by_step kg_pc8d_left kg_pc8d_right
 
 # to run the tests (e.g.)
-./bin/rbc_tests_icp
+./bin/icp_tests_icp
 # or with profiling information
-./bin/rbc_tests_icp --profiling
+./bin/icp_tests_icp --profiling
 
 # to install the libraries
 sudo make install

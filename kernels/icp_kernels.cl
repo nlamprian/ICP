@@ -606,7 +606,7 @@ void icpSubtractMean (global float4 *F, global float4 *M, global float4 *DF, glo
  *  \details Multiplies the deviations of corresponding points in the 
  *           fixed set \f$ \mathcal{F}_{m \times 3} \f$ and the moving set 
  *           \f$ \mathcal{M}_{m \times 3} \f$.
- *  \note Since large sums of built, there is an option to scale the points in 
+ *  \note Since large sums are built, there is an option to scale the points in 
  *        order to deal with floating point arithmetic issues. The resulting S 
  *        matrix will have accordingly scaled eigenvalues. The eigenvectors stay 
  *        the same. The constituents of the scaling factor s are scaled as well, 
@@ -675,7 +675,7 @@ void icpSijProducts (global float4 *M, global float4 *F, global float *Sij, uint
  *  \details Multiplies the deviations of corresponding points in the 
  *           fixed set \f$ \mathcal{F}_{m \times 3} \f$ and the moving set 
  *           \f$ \mathcal{M}_{m \times 3} \f$.
- *  \note Since large sums of built, there is an option to scale the points in 
+ *  \note Since large sums are built, there is an option to scale the points in 
  *        order to deal with floating point arithmetic issues. The resulting S 
  *        matrix will have accordingly scaled eigenvalues. The eigenvectors stay 
  *        the same. The constituents of the scaling factor s are scaled as well, 

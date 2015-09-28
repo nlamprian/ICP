@@ -2,7 +2,7 @@ cmake_minimum_required ( VERSION 2.8.12.2 )
 project ( ICP )
 set ( FNAME "icp" )
 set ( PROJECT_VERSION_MAJOR 1 )
-set ( PROJECT_VERSION_MINOR 0 )
+set ( PROJECT_VERSION_MINOR 1 )
 set ( PROJECT_VERSION_PATCH 0 )
 
 option ( BUILD_EXAMPLES "Build examples" OFF )

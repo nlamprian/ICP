@@ -4,7 +4,7 @@
  *           initialize the necessary buffers, set up the workspaces, and 
  *           run the kernels.
  *  \author Nick Lamprianidis
- *  \version 1.0
+ *  \version 1.1.0
  *  \date 2015
  *  \copyright The MIT License (MIT)
  *  \par
@@ -338,9 +338,9 @@ namespace ICP
         env (_env), info (_info), 
         context (env.getContext (info.pIdx)), 
         queue (env.getQueue (info.ctxIdx, info.qIdx[0])), 
-        kernelScan (env.getProgram (info.pgIdx), "inclusiveScan"), 
-        kernelSumsScan (env.getProgram (info.pgIdx), "inclusiveScan"), 
-        kernelAddSums (env.getProgram (info.pgIdx), "addGroupSums")
+        kernelScan (env.getProgram (info.pgIdx), "inclusiveScan_i"), 
+        kernelSumsScan (env.getProgram (info.pgIdx), "inclusiveScan_i"), 
+        kernelAddSums (env.getProgram (info.pgIdx), "addGroupSums_i")
     {
         wgMultiple = kernelScan.getWorkGroupInfo
             <CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE> (env.devices[info.pIdx][info.dIdx]);
@@ -355,9 +355,9 @@ namespace ICP
         env (_env), info (_info), 
         context (env.getContext (info.pIdx)), 
         queue (env.getQueue (info.ctxIdx, info.qIdx[0])), 
-        kernelScan (env.getProgram (info.pgIdx), "exclusiveScan"), 
-        kernelSumsScan (env.getProgram (info.pgIdx), "inclusiveScan"), 
-        kernelAddSums (env.getProgram (info.pgIdx), "addGroupSums")
+        kernelScan (env.getProgram (info.pgIdx), "exclusiveScan_i"), 
+        kernelSumsScan (env.getProgram (info.pgIdx), "inclusiveScan_i"), 
+        kernelAddSums (env.getProgram (info.pgIdx), "addGroupSums_i")
     {
         wgMultiple = kernelScan.getWorkGroupInfo
             <CL_KERNEL_PREFERRED_WORK_GROUP_SIZE_MULTIPLE> (env.devices[info.pIdx][info.dIdx]);
@@ -3439,6 +3439,17 @@ namespace ICP
     }
 
 
+    /*! \note Call `buildRBC` after the `D_IN_F` buffer has been written, 
+     *        and before any calls to `run` (for each registration).
+     */
+    void ICPStep<ICPStepConfigT::EIGEN, ICPStepConfigW::REGULAR>::buildRBC (
+        const std::vector<cl::Event> *events, cl::Event *event)
+    {
+        fReps.run (events);
+        rbcC.run (nullptr, event);
+    }
+
+
     /*! \details The function call is non-blocking.
      *
      *  \param[in] events a wait-list of events.
@@ -3449,12 +3460,6 @@ namespace ICP
     void ICPStep<ICPStepConfigT::EIGEN, ICPStepConfigW::REGULAR>::run (
         const std::vector<cl::Event> *events, cl::Event *event, bool config)
     {
-        if (config)
-        {
-            fReps.run ();
-            rbcC.run ();
-        }
-
         transform.run ();
         rbcS.run (nullptr, nullptr, config);
         means.run ();
@@ -3841,6 +3846,17 @@ namespace ICP
     }
 
 
+    /*! \note Call `buildRBC` after the `D_IN_F` buffer has been written, 
+     *        and before any calls to `run` (for each registration).
+     */
+    void ICPStep<ICPStepConfigT::EIGEN, ICPStepConfigW::WEIGHTED>::buildRBC (
+        const std::vector<cl::Event> *events, cl::Event *event)
+    {
+        fReps.run (events);
+        rbcC.run (nullptr, event);
+    }
+
+
     /*! \details The function call is non-blocking.
      *
      *  \param[in] events a wait-list of events.
@@ -3851,12 +3867,6 @@ namespace ICP
     void ICPStep<ICPStepConfigT::EIGEN, ICPStepConfigW::WEIGHTED>::run (
         const std::vector<cl::Event> *events, cl::Event *event, bool config)
     {
-        if (config)
-        {
-            fReps.run ();
-            rbcC.run ();
-        }
-
         transform.run ();
         rbcS.run (nullptr, nullptr, config);
         weights.run ();
@@ -4238,6 +4248,17 @@ namespace ICP
     }
 
 
+    /*! \note Call `buildRBC` after the `D_IN_F` buffer has been written, 
+     *        and before any calls to `run` (for each registration).
+     */
+    void ICPStep<ICPStepConfigT::POWER_METHOD, ICPStepConfigW::REGULAR>::buildRBC (
+        const std::vector<cl::Event> *events, cl::Event *event)
+    {
+        fReps.run (events);
+        rbcC.run (nullptr, event);
+    }
+
+
     /*! \details The function call is non-blocking.
      *
      *  \param[in] events a wait-list of events.
@@ -4248,12 +4269,6 @@ namespace ICP
     void ICPStep<ICPStepConfigT::POWER_METHOD, ICPStepConfigW::REGULAR>::run (
         const std::vector<cl::Event> *events, cl::Event *event, bool config)
     {
-        if (config)
-        {
-            fReps.run ();
-            rbcC.run ();
-        }
-
         transform.run ();
         rbcS.run (nullptr, nullptr, config);
         means.run ();
@@ -4634,6 +4649,17 @@ namespace ICP
     }
 
 
+    /*! \note Call `buildRBC` after the `D_IN_F` buffer has been written, 
+     *        and before any calls to `run` (for each registration).
+     */
+    void ICPStep<ICPStepConfigT::POWER_METHOD, ICPStepConfigW::WEIGHTED>::buildRBC (
+        const std::vector<cl::Event> *events, cl::Event *event)
+    {
+        fReps.run (events);
+        rbcC.run (nullptr, event);
+    }
+
+
     /*! \details The function call is non-blocking.
      *
      *  \param[in] events a wait-list of events.
@@ -4644,12 +4670,6 @@ namespace ICP
     void ICPStep<ICPStepConfigT::POWER_METHOD, ICPStepConfigW::WEIGHTED>::run (
         const std::vector<cl::Event> *events, cl::Event *event, bool config)
     {
-        if (config)
-        {
-            fReps.run ();
-            rbcC.run ();
-        }
-
         transform.run ();
         rbcS.run (nullptr, nullptr, config);
         weights.run ();
@@ -4719,6 +4739,168 @@ namespace ICP
         c = _c;
         matrixS.setScaling (c);
     }
+
+
+    /*! \param[in] _env opencl environment.
+     *  \param[in] _infoRBC opencl configuration for the `RBC` classes. 
+     *                      It specifies the context, queue, etc, to be used.
+     *  \param[in] _infoICP opencl configuration for the `ICP` classes. 
+     *                      It specifies the context, queue, etc, to be used.
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    ICP<CR, CW>::ICP (clutils::CLEnv &_env, clutils::CLEnvInfo<1> _infoRBC, clutils::CLEnvInfo<1> _infoICP) : 
+        ICPStep<CR, CW>::ICPStep (_env, _infoRBC, _infoICP)
+    {
+    }
+
+
+    /*! \details Sets up memory objects as necessary, and defines the kernel workspaces.
+     *  \note If you have assigned a memory object to one member variable of the class 
+     *        before the call to `init`, then that memory will be maintained. Otherwise, 
+     *        a new memory object will be created.
+     *        
+     *  \param[in] _m number of points in the sets.
+     *  \param[in] _nr number of fixed set representatives.
+     *  \param[in] _a factor scaling the results of the distance calculations for the 
+     *                geometric \f$ x_g \f$ and photometric \f$ x_p \f$ dimensions of 
+     *                the \f$ x\epsilon\mathbb{R}^8 \f$ points. That is, \f$ \|x-x'\|_2^2= 
+     *                f_g(a)\|x_g-x'_g\|_2^2+f_p(a)\|x_p-x'_p\|_2^2 \f$. For more info, 
+     *                look at `euclideanSquaredMetric8` in [kernels/rbc_kernels.cl]
+     *                (http://random-ball-cover.paign10.me).
+     *  \param[in] _c scaling factor for dealing with floating point arithmetic 
+     *                issues when computing the `S` matrix.
+     *  \param[in] _max_iterations maximum number of iterations that a registration is allowed to perform.
+     *  \param[in] _angle_threshold threshold for the change in angle (in degrees) in the transformation.
+     *  \param[in] _translation_threshold threshold for the change in translation (in mm) in the transformation.
+     *  \param[in] _staging flag to indicate whether or not to instantiate the staging buffers.
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    void ICP<CR, CW>::init (unsigned int _m, unsigned int _nr, float _a, float _c, unsigned int _max_iterations, 
+        double _angle_threshold, double _translation_threshold, Staging _staging)
+    {
+        max_iterations = _max_iterations;
+        angle_threshold = _angle_threshold;
+        translation_threshold = _translation_threshold;
+
+        ICPStep<CR, CW>::init (_m, _nr, _a, _c, _staging);
+    }
+
+
+    /*! \note Call `buildRBC` after the `D_IN_F` buffer has been written, 
+     *        and before any calls to `run` (for each registration).
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    void ICP<CR, CW>::buildRBC (const std::vector<cl::Event> *events, cl::Event *event)
+    {
+        ICPStep<CR, CW>::buildRBC (events, event);
+        k = 0;
+    }
+
+
+    /*! \details Executes the iterative ICP algorithm and estimates the 
+     *           relative transformation between the two associated point clouds.
+     *  \note The function call is blocking, so it doesn't need to offer an event. 
+     *        It also doesn't accept events, since it's meant to be called after 
+     *        `buildRBC` which is the one that will wait on the events.
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    void ICP<CR, CW>::run ()
+    {
+        ICPStep<CR, CW>::run (nullptr, nullptr, true);
+        
+        while (check ()) ICPStep<CR, CW>::run ();
+        
+        this->queue.finish ();
+    }
+
+
+    /*! \details Checks the change in the transformation and the number of iterations.
+     *  \note Call `buildRBC` after the `D_IN_F` buffer has been written, 
+     *        and before any calls to `run` (for each registration).
+     *        
+     *  \return `false` for convergence, `true` otherwise.
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    inline bool ICP<CR, CW>::check ()
+    {
+        k++;
+        double delta_angle = 180.0 / M_PI * 2.0 * std::atan2 (this->qk.vec ().norm (), this->qk.w ());  // in degrees
+        double delta_tanslation = this->tk.norm ();  // in mm
+
+        if (k == max_iterations) return false;
+        if (delta_angle < angle_threshold && delta_tanslation < translation_threshold) return false;
+
+        return true;
+    }
+
+
+    /*! \return The maximum number of iterations. */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    unsigned int ICP<CR, CW>::getMaxIterations ()
+    {
+        return max_iterations;
+    }
+
+
+    /*! \details Updates the parameter for the maximum number of iterations.
+     *  
+     *  \param[in] _max_iterations maximum number of iterations.
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    void ICP<CR, CW>::setMaxIterations (unsigned int _max_iterations)
+    {
+        max_iterations = _max_iterations;
+    }
+
+
+    /*! \return The threshold for the change in angle (in degrees). */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    double ICP<CR, CW>::getAngleThreshold ()
+    {
+        return angle_threshold;
+    }
+
+
+    /*! \details Updates the parameter for the threshold for the change 
+     *           in angle (in degrees) in the transformation.
+     *  
+     *  \param[in] _angle_threshold threshold for the change in angle (in degrees).
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    void ICP<CR, CW>::setAngleThreshold (double _angle_threshold)
+    {
+        angle_threshold = _angle_threshold;
+    }
+
+
+    /*! \return The threshold for the change in translation (in mm). */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    double ICP<CR, CW>::getTranslationThreshold ()
+    {
+        return translation_threshold;
+    }
+
+
+    /*! \details Updates the parameter for the threshold for the change 
+     *           in translation (in mm) in the transformation.
+     *  
+     *  \param[in] _translation_threshold threshold for the change in translation (in mm).
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    void ICP<CR, CW>::setTranslationThreshold (double _translation_threshold)
+    {
+        translation_threshold = _translation_threshold;
+    }
+
+
+    /*! \brief Instantiation that uses the Eigen library to estimate the rotation, and considers regular residual errors.  */
+    template class ICP<ICPStepConfigT::EIGEN, ICPStepConfigW::REGULAR>;
+    /*! \brief Instantiation that uses the Eigen library to estimate the rotation, and considers weighted residual errors. */
+    template class ICP<ICPStepConfigT::EIGEN, ICPStepConfigW::WEIGHTED>;
+    /*! \brief Instantiation that uses the Power Method to estimate the rotation, and considers regular residual errors.   */
+    template class ICP<ICPStepConfigT::POWER_METHOD, ICPStepConfigW::REGULAR>;
+    /*! \brief Instantiation that uses the Power Method to estimate the rotation, and considers weighted residual errors.  */
+    template class ICP<ICPStepConfigT::POWER_METHOD, ICPStepConfigW::WEIGHTED>;
 
 }
 }

@@ -1,17 +1,17 @@
-/*! \file step_by_step.cpp
- *  \brief An example showcasing the progress of the `%ICP` pipeline.
- *  \details Estimates, step by step, the transformation between two point clouds 
- *           and displays the result of each %ICP step in the registration process.
- *  \note To change the configuration of the `ICPStep` class, alter the `RC` and `WC` variables.
+/*! \file registration.cpp
+ *  \brief An example showcasing the use of the `ICP` class.
+ *  \details Estimates the transformation between two point clouds, registers 
+ *           one of them to the other and displays the result with OpenGL.
+ *  \note To change the configuration of the `%ICP` class, alter the `RC` and `WC` variables.
  *  \note **Command line arguments**:
  *  \note `<name_1>`: name of the binary file for the first point cloud.
  *  \note `<name_2>`: name of the binary file for the second point cloud.
  *  \note **Usage**:
- *  \note `./bin/icp_step_by_step pcA pcB`
+ *  \note `./bin/icp_registration pcA pcB`
  *  \note loads the point clouds in `../data/pcA.bin` and `../data/pcB.bin`
- *  \note `./bin/icp_step_by_step pc`
+ *  \note `./bin/icp_registration pc`
  *  \note loads the point clouds in `../data/pc_1.bin` and `../data/pc_2.bin`
- *  \note `./bin/icp_step_by_step`
+ *  \note `./bin/icp_registration`
  *  \note loads the point clouds in `../data/kg_pc8d_1.bin` and `../data/kg_pc8d_2.bin`
  *  \author Nick Lamprianidis
  *  \version 1.1.0
@@ -46,7 +46,7 @@
 #include <string>
 #include <GL/glew.h>  // Add before CLUtils.hpp
 #include <CLUtils.hpp>
-#include <ocl_icp_sbs.hpp>
+#include <ocl_icp_reg.hpp>
 
 #if defined(__APPLE__) || defined(__MACOSX)
 #include <GLUT/glut.h>
@@ -77,7 +77,7 @@ std::vector<cl_float8> pc8d1 (n), pc8d2 (n);
 // OpenCL paramaters
 const cl_algo::ICP::ICPStepConfigT RC = cl_algo::ICP::ICPStepConfigT::POWER_METHOD;
 const cl_algo::ICP::ICPStepConfigW WC = cl_algo::ICP::ICPStepConfigW::WEIGHTED;
-ICPSBS<RC, WC> *icp;
+ICPReg<RC, WC> *icp;
 
 
 /*! \brief Display callback for the window. */
@@ -159,7 +159,7 @@ void keyPressed (unsigned char key, int x, int y)
             break;
         case 'T':
         case 't':
-            icp->step ();
+            icp->registerPC ();
             break;
         case 'R':
         case 'r':
@@ -218,7 +218,7 @@ void initGL (int argc, char **argv)
     glutInitWindowSize (gl_win_width, gl_win_height);
     glutInitWindowPosition ((glutGet (GLUT_SCREEN_WIDTH) - gl_win_width) / 2,
                             (glutGet (GLUT_SCREEN_HEIGHT) - gl_win_height) / 2 - 70);
-    glWinId = glutCreateWindow ("ICP Step by Step");
+    glWinId = glutCreateWindow ("ICP Registration");
 
     glutDisplayFunc (&drawGLScene);
     glutIdleFunc (&idleGLScene);
@@ -244,11 +244,11 @@ void printInfo ()
 {
     std::cout << "\nAvailable Controls:\n";
     std::cout << "===================\n";
-    std::cout << " Perform ICP Step     :  T\n";
-    std::cout << " Reset Transformation :  R\n";
-    std::cout << " Rotate               :  Mouse Left Button\n";
-    std::cout << " Zoom In/Out          :  Mouse Wheel\n";
-    std::cout << " Quit                 :  Q or Esc\n\n";
+    std::cout << " Perform ICP Registration :  T\n";
+    std::cout << " Reset Transformation     :  R\n";
+    std::cout << " Rotate                   :  Mouse Left Button\n";
+    std::cout << " Zoom In/Out              :  Mouse Wheel\n";
+    std::cout << " Quit                     :  Q or Esc\n\n";
 }
 
 
@@ -326,7 +326,7 @@ int main (int argc, char **argv)
 
         // The OpenCL environment must be created after the OpenGL environment 
         // has been initialized and before OpenGL starts rendering
-        icp = new ICPSBS<RC, WC> (&glPC4DBuffer, &glRGBABuffer);
+        icp = new ICPReg<RC, WC> (&glPC4DBuffer, &glRGBABuffer);
         icp->init (pc8d1, pc8d2);
 
         glutMainLoop ();

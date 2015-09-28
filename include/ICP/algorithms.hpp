@@ -4,7 +4,7 @@
  *           initialize the necessary buffers, set up the workspaces, 
  *           and run the kernels.
  *  \author Nick Lamprianidis
- *  \version 1.0
+ *  \version 1.1.0
  *  \date 2015
  *  \copyright The MIT License (MIT)
  *  \par
@@ -1568,15 +1568,16 @@ namespace ICP
      *  \details Performs one `%ICP` iteration. It accepts two sets (fixed and moving) of 
      *           landmarks, estimates the relative homogeneous transformation \f$ T_k \f$ 
      *           between them, and transforms the moving set according to this transformation.
-     *  \note The implemented algorithm is described by `Horn` in two of his papers, 
+     *  \note The implemented algorithms are described by `Horn` in 
      *        [Closed-Form Solution of Absolute Orientation Using Unit Quaternions][1] and 
-     *        [Closed-Form Solution of Absolute Orientation Using Orthonormal Matrices][2].
+     *        by `Arun` et al. in [Least-Squares Fitting of Two 3-D Point Sets][2].
      *        [1]: http://people.csail.mit.edu/bkph/papers/Absolute_Orientation.pdf
-     *        [2]: http://graphics.stanford.edu/~smr/ICP/comparison/horn-hilden-orientation-josa88.pdf
+     *        [2]: http://bmi214.stanford.edu/bmiarc/bmi214-2008/articles/arun.pdf
      *  \note This is just a declaration. Look at the explicit template specializations
      *        for specific instantiations of the class.
      *        
-     *  \tparam C configures the class for different methods of rotation computation.
+     *  \tparam CR configures the class with different methods of rotation computation.
+     *  \tparam CW configures the class for performing either regular or weighted computation.
      */
     template <ICPStepConfigT CR, ICPStepConfigW CW>
     class ICPStep;
@@ -1658,6 +1659,8 @@ namespace ICP
         /*! \brief Performs a data transfer to a staging buffer. */
         void* read (ICPStep::Memory mem = ICPStep::Memory::H_IO_T, bool block = CL_TRUE, 
                     const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
+        /*! \brief Builds the RBC data structure. */
+        void buildRBC (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
         /*! \brief Executes the necessary kernels. */
         void run (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr, bool config = false);
         /*! \brief Gets the scaling parameter \f$ \alpha \f$ involved in 
@@ -1696,7 +1699,7 @@ namespace ICP
         cl_float s;            /*!< Represents the scale estimation up to iteration `k`,
                                 *   given as a scalar, \f$ s \f$. */
 
-    private:
+    protected:
         clutils::CLEnv &env;
         clutils::CLEnvInfo<1> infoRBC, infoICP;
         cl::Context context;
@@ -1739,12 +1742,6 @@ namespace ICP
         {
             clutils::CPUTimer<double, std::milli> cTimer;
             double pTime = 0.0;
-
-            if (config)
-            {
-                fReps.run (events);
-                rbcC.run ();
-            }
 
             pTime += transform.run (timer, events);
             pTime += rbcS.run (timer, nullptr, config);
@@ -1873,6 +1870,8 @@ namespace ICP
         /*! \brief Performs a data transfer to a staging buffer. */
         void* read (ICPStep::Memory mem = ICPStep::Memory::H_IO_T, bool block = CL_TRUE, 
                     const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
+        /*! \brief Builds the RBC data structure. */
+        void buildRBC (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
         /*! \brief Executes the necessary kernels. */
         void run (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr, bool config = false);
         /*! \brief Gets the scaling parameter \f$ \alpha \f$ involved in 
@@ -1911,7 +1910,7 @@ namespace ICP
         cl_float s;            /*!< Represents the scale estimation up to iteration `k`,
                                 *   given as a scalar, \f$ s \f$. */
 
-    private:
+    protected:
         clutils::CLEnv &env;
         clutils::CLEnvInfo<1> infoRBC, infoICP;
         cl::Context context;
@@ -1955,12 +1954,6 @@ namespace ICP
         {
             clutils::CPUTimer<double, std::milli> cTimer;
             double pTime = 0.0;
-
-            if (config)
-            {
-                fReps.run (events);
-                rbcC.run ();
-            }
 
             pTime += transform.run (timer, events);
             pTime += rbcS.run (timer, nullptr, config);
@@ -2090,6 +2083,8 @@ namespace ICP
         /*! \brief Performs a data transfer to a staging buffer. */
         void* read (ICPStep::Memory mem = ICPStep::Memory::H_IO_T, bool block = CL_TRUE, 
                     const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
+        /*! \brief Builds the RBC data structure. */
+        void buildRBC (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
         /*! \brief Executes the necessary kernels. */
         void run (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr, bool config = false);
         /*! \brief Gets the scaling parameter \f$ \alpha \f$ involved in 
@@ -2128,7 +2123,7 @@ namespace ICP
         cl_float s;            /*!< Represents the scale estimation up to iteration `k`,
                                 *   given as a scalar, \f$ s \f$. */
 
-    private:
+    protected:
         clutils::CLEnv &env;
         clutils::CLEnvInfo<1> infoRBC, infoICP;
         cl::Context context;
@@ -2170,12 +2165,6 @@ namespace ICP
         {
             clutils::CPUTimer<double, std::milli> cTimer;
             double pTime = 0.0;
-
-            if (config)
-            {
-                fReps.run (events);
-                rbcC.run ();
-            }
 
             pTime += transform.run (timer, events);
             pTime += rbcS.run (timer, nullptr, config);
@@ -2290,6 +2279,8 @@ namespace ICP
         /*! \brief Performs a data transfer to a staging buffer. */
         void* read (ICPStep::Memory mem = ICPStep::Memory::H_IO_T, bool block = CL_TRUE, 
                     const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
+        /*! \brief Builds the RBC data structure. */
+        void buildRBC (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
         /*! \brief Executes the necessary kernels. */
         void run (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr, bool config = false);
         /*! \brief Gets the scaling parameter \f$ \alpha \f$ involved in 
@@ -2328,7 +2319,7 @@ namespace ICP
         cl_float s;            /*!< Represents the scale estimation up to iteration `k`,
                                 *   given as a scalar, \f$ s \f$. */
 
-    private:
+    protected:
         clutils::CLEnv &env;
         clutils::CLEnvInfo<1> infoRBC, infoICP;
         cl::Context context;
@@ -2372,12 +2363,6 @@ namespace ICP
             clutils::CPUTimer<double, std::milli> cTimer;
             double pTime = 0.0;
 
-            if (config)
-            {
-                fReps.run (events);
-                rbcC.run ();
-            }
-
             pTime += transform.run (timer, events);
             pTime += rbcS.run (timer, nullptr, config);
             pTime += weights.run (timer);
@@ -2411,6 +2396,101 @@ namespace ICP
             pTime += timer.duration ();
 
             return pTime;
+        }
+
+    };
+
+
+    /*! \brief Interface class for the `%ICP` pipeline.
+     *  \details Performs the %ICP algorithm and estimates the transformation between two point clouds.
+     *  \note The implemented algorithms are described by `Horn` in 
+     *        [Closed-Form Solution of Absolute Orientation Using Unit Quaternions][1] and 
+     *        by `Arun` et al. in [Least-Squares Fitting of Two 3-D Point Sets][2].
+     *        [1]: http://people.csail.mit.edu/bkph/papers/Absolute_Orientation.pdf
+     *        [2]: http://bmi214.stanford.edu/bmiarc/bmi214-2008/articles/arun.pdf
+     *  \note The class creates its own buffers. If you would like to provide 
+     *        your own buffers, call `get` to get references to the placeholders 
+     *        within the class and assign them to your buffers. You will have to 
+     *        do this strictly before the call to `init`. You can also call `get` 
+     *        (after the call to `init`) to get a reference to a buffer within 
+     *        the class and assign it to another kernel class instance further 
+     *        down in your task pipeline.
+     *  
+     *        The following input/output `OpenCL` memory objects are created 
+     *        by a `ICP<ICPStepConfigT::POWER_METHOD, ICPStepConfigW::WEIGHTED>` instance:<br>
+     *        |  Name  | Type | Placement | I/O | Use | Properties | Size |
+     *        |  ---   |:---: |   :---:   |:---:|:---:|   :---:    |:---: |
+     *        | H_IN_F | Buffer | Host   | I | Staging     | CL_MEM_READ_WRITE | \f$m*sizeof\ (cl\_float8)\f$ |
+     *        | H_IN_M | Buffer | Host   | I | Staging     | CL_MEM_READ_WRITE | \f$m*sizeof\ (cl\_float8)\f$ |
+     *        | H_IO_T | Buffer | Host   | IO| Staging     | CL_MEM_READ_WRITE | \f$2*sizeof\ (cl\_float4)\f$ |
+     *        | D_IN_F | Buffer | Device | I | Processing  | CL_MEM_READ_ONLY  | \f$m*sizeof\ (cl\_float8)\f$ |
+     *        | D_IN_M | Buffer | Device | I | Processing  | CL_MEM_READ_ONLY  | \f$m*sizeof\ (cl\_float8)\f$ |
+     *        | D_IO_T | Buffer | Device | IO| Processing  | CL_MEM_READ_WRITE | \f$2*sizeof\ (cl\_float4)\f$ |
+     *        
+     *  \tparam CR configures the class with different methods of rotation computation.
+     *  \tparam CW configures the class for performing either regular or weighted computation.
+     */
+    template <ICPStepConfigT CR, ICPStepConfigW CW>
+    class ICP : public ICPStep<CR, CW>
+    {
+    public:
+        /*! \brief Configures an OpenCL environment as specified by `_info`. */
+        ICP (clutils::CLEnv &_env, clutils::CLEnvInfo<1> _infoRBC, clutils::CLEnvInfo<1> _infoICP);
+        /*! \brief Configures kernel execution parameters. */
+        void init (unsigned int _m, unsigned int _nr, float _a = 1e2f, float _c = 1e-6f, 
+            unsigned int _max_iterations = 40, double _angle_threshold = 0.001,
+            double _translation_threshold = 0.01, Staging _staging = Staging::IO);
+        /*! \brief Builds the RBC data structure. */
+        void buildRBC (const std::vector<cl::Event> *events = nullptr, cl::Event *event = nullptr);
+        /*! \brief Executes the necessary kernels. */
+        void run ();
+        /*! \brief Gets the maximum number of iterations. */
+        unsigned int getMaxIterations ();
+        /*! \brief Sets the maximum number of iterations. */
+        void setMaxIterations (unsigned int _max_iterations);
+        /*! \brief Gets the threshold for the change in angle. */
+        double getAngleThreshold ();
+        /*! \brief Sets the threshold for the change in angle. */
+        void setAngleThreshold (double _angle_threshold);
+        /*! \brief Gets the threshold for the change in translation. */
+        double getTranslationThreshold ();
+        /*! \brief Sets the threshold for the change in translation. */
+        void setTranslationThreshold (double _translation_threshold);
+
+        /*! \brief Current iteration number.
+         *  \details Gets reset in `buildRBC` with every registration. */
+        unsigned int k;
+        
+    protected:
+        /*! \brief Performs the convergence check. */
+        inline bool check ();
+
+        /*! \brief Maximum number of iterations that a registration process is allowed to perform. */
+        unsigned int max_iterations;
+        /*! \brief Threshold for the change in angle (in degrees) in the transformation. */
+        double angle_threshold;
+        /*! \brief Threshold for the change in translation (in mm) in the transformation. */
+        double translation_threshold;
+
+    public:
+        /*! \brief Executes the necessary kernels.
+         *  \details This `run` instance is used for profiling.
+         *  
+         *  \param[in] timer `GPUTimer` that does the profiling of the kernel executions.
+         *  \return Τhe total execution time measured by the timer.
+         */
+        template <typename period>
+        double run (clutils::GPUTimer<period> &timer)
+        {
+            clutils::ProfilingInfo<40> steps ("Steps");
+
+            steps[0] = ICPStep<CR, CW>::run (timer, nullptr, true);
+            for (int i = 1; i < 40; ++i)
+                steps[i] = ICPStep<CR, CW>::run (timer);
+
+            steps.print ("ICP");
+            
+            return steps.total ();
         }
 
     };

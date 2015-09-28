@@ -1,7 +1,7 @@
 /*! \file ocl_icp_sbs.cpp
  *  \brief Defines the classes for setting up the OpenCL %ICP pipeline.
  *  \author Nick Lamprianidis
- *  \version 1.0
+ *  \version 1.1.0
  *  \date 2015
  *  \copyright The MIT License (MIT)
  *  \par
@@ -26,7 +26,7 @@
  *  THE SOFTWARE.
  */
 
-#include <step_by_step/ocl_icp_sbs.hpp>
+#include <ocl_icp_sbs.hpp>
 
 
 const std::vector<std::string> kernel_files_rbc = { "kernels/RBC/reduce_kernels.cl", 
@@ -171,6 +171,8 @@ void ICPSBS<RC, WC>::step ()
     static clutils::CPUTimer<double, std::milli> timer;
     double latency;
 
+    if (config) icpStep.buildRBC ();
+    
     timer.start ();
     icpStep.run (nullptr, nullptr, config);  // Take one ICP step (refine transformation)
     queue.finish ();

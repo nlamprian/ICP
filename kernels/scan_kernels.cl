@@ -64,8 +64,8 @@
  *  \param[in] n the number of elements in a row of the array divided by 4.
  */
 kernel
-void inclusiveScan (global int4 *in, global int4 *out, local int *data, 
-                    global int *sums, uint n)
+void inclusiveScan_i (global int4 *in, global int4 *out, local int *data, 
+                      global int *sums, uint n)
 {
     // Workspace dimensions
     uint lXdim = get_local_size (0);
@@ -185,8 +185,8 @@ void inclusiveScan (global int4 *in, global int4 *out, local int *data,
  *  \param[in] n the number of elements in a row of the array divided by 4.
  */
 kernel
-void exclusiveScan (global int4 *in, global int4 *out, local int *data, 
-                    global int *sums, uint n)
+void exclusiveScan_i (global int4 *in, global int4 *out, local int *data, 
+                      global int *sums, uint n)
 {
     // Workspace dimensions
     uint lXdim = get_local_size (0);
@@ -293,7 +293,7 @@ void exclusiveScan (global int4 *in, global int4 *out, local int *data,
  *  \param[in] n the number of elements in a row of the array divided by 4.
  */
 kernel
-void addGroupSums (global int *sums, global int4 *out, uint n)
+void addGroupSums_i (global int *sums, global int4 *out, uint n)
 {
     // Workspace dimensions
     uint wgXdim = get_num_groups (0);

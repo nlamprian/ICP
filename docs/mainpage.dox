@@ -4,7 +4,7 @@
 
 <img src="http://i76.photobucket.com/albums/j16/paign10/icp_step_by_step_zps7pvd5zhn.gif" border="0" alt=" photo icp_step_by_step_zps7pvd5zhn.gif"/>
 
-Curenntly, there are two options for the rotation estimation step. One that uses **rotation matrices** and estimates the rotation by performing **Singular Value Decomposition** on the `CPU`. The other uses **unit quaternions** and estimates the rotation based on the **Power Method**. The rest of the computational load is executed exclusively on the `GPU`. Both resulting pipelines are able to perform one `%ICP iteration` in about `1.1 millisecond`, for input sets of `|F|=|M|=16384` landmarks and `|R|=256` representative points.
+Currently, there are two options for the rotation estimation step. One that uses **rotation matrices** and estimates the rotation by performing **Singular Value Decomposition** on the `CPU`. The other uses **unit quaternions** and estimates the rotation based on the **Power Method**. The rest of the computational load is executed exclusively on the `GPU`. Both resulting pipelines are able to perform one `%ICP iteration` in about `1.1 millisecond`, for input sets of `|F|=|M|=16384` landmarks and `|R|=256` representative points.
 <br><br>
 
 # Note
@@ -25,7 +25,7 @@ All these dependencies are automatically downloaded by cmake, if they are not av
 
 # Examples
 <hr>
-There is one application, `kinect_frame_grabber` that is able to capture point clouds from Kinect (you'll have to install [libfreenect](https://github.com/OpenKinect/libfreenect) to build it), and another one, `icp_step_by_step`, that visualizes the process of frame-to-frame registration, step by step.
+There are three applications. `kinect_frame_grabber` that is able to capture point clouds from Kinect (you'll have to install [libfreenect](https://github.com/OpenKinect/libfreenect) to build it). `icp_step_by_step` visualizes the process of frame-to-frame registration, step by step. `icp_registration` presents how to set up the ICP pipeline.
 <br><br>
 
 # Compilation
@@ -46,15 +46,15 @@ There is one application, `kinect_frame_grabber` that is able to capture point c
 > \# optionally, capture a pair of point clouds <br>
 > ./bin/kinect_frame_grabber -f -s left <br>
 > ./bin/kinect_frame_grabber -f -s right <br>
-> \# to run the example (from the build directory!) <br>
+> \# to run the examples (from the build directory!) <br>
 > ./bin/icp_step_by_step <br>
 > \# or if you recorded your own pair of point clouds <br>
 > ./bin/icp_step_by_step kg_pc8d_left kg_pc8d_right
 > 
 > \# to run the tests (e.g.) <br>
-> ./bin/rbc_tests_icp <br>
+> ./bin/icp_tests_icp <br>
 > \# or with profiling information <br>
-> ./bin/rbc_tests_icp --profiling
+> ./bin/icp_tests_icp --profiling
 > 
 > \# to install the libraries <br>
 > sudo make install <br>

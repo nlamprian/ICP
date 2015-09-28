@@ -79,37 +79,6 @@ bool filtered;
 std::string suffix;
 
 
-/*! \brief A class hierarchy for manipulating a mutex. */
-class Mutex
-{
-public:
-    void lock () { freenectMutex.lock (); }
-    void unlock () { freenectMutex.unlock (); }
-
-    /*! \brief A class that automates the manipulation of 
-     *         the outer class instance's mutex.
-     *  \details Mutex's mutex is locked with the creation of a 
-     *           ScopedLock instance and unlocked with the 
-     *           destruction of the ScopedLock instance.
-     */
-    class ScopedLock
-    {
-    public:
-        ScopedLock (Mutex &mtx) : mMutex (mtx) { mMutex.lock (); }
-        ~ScopedLock () { mMutex.unlock (); }
-
-    private:
-        Mutex &mMutex;
-
-    };
-
-private:
-    /*! A mutex for safely accessing a buffer updated by the freenect thread. */
-    std::mutex freenectMutex;
-
-};
-
-
 /*! \brief A class that extends Freenect::FreenectDevice by defining 
  *         the VideoCallback function so we can be getting updates 
  *         with the latest RGB frame.
@@ -143,7 +112,7 @@ public:
      */
     void VideoCallback (void *rgb, uint32_t timestamp)
     {
-        Mutex::ScopedLock lock (rgbMutex);
+        std::lock_guard<std::mutex> lock (rgbMutex);
         
         std::copy ((uint8_t *) rgb, (uint8_t *) rgb + getVideoBufferSize (), rgbBuffer.data ());
         newRGBFrame = true;
@@ -158,7 +127,7 @@ public:
      */
     void DepthCallback (void *depth, uint32_t timestamp)
     {
-        Mutex::ScopedLock lock (depthMutex);
+        std::lock_guard<std::mutex> lock (depthMutex);
         
         std::copy ((uint16_t *) depth, (uint16_t *) depth + getDepthBufferSize () / 2, depthBuffer.data ());
         newDepthFrame = true;
@@ -171,8 +140,8 @@ public:
      */
     bool updateFrames (std::vector<uint8_t> &rgb, std::vector<uint16_t> &depth)
     {
-        Mutex::ScopedLock lockRGB (rgbMutex);
-        Mutex::ScopedLock lockDepth (depthMutex);
+        std::lock_guard<std::mutex> lockRGB (rgbMutex);
+        std::lock_guard<std::mutex> lockDepth (depthMutex);
         
         if (!newRGBFrame || !newDepthFrame)
             return false;
@@ -187,7 +156,7 @@ public:
     }
 
 private:
-    Mutex rgbMutex, depthMutex;
+    std::mutex rgbMutex, depthMutex;
     std::vector<uint8_t> rgbBuffer;
     std::vector<uint16_t> depthBuffer;
     bool newRGBFrame, newDepthFrame;
@@ -252,7 +221,7 @@ void saveBinary (std::vector<uint8_t> &rgb, std::vector<uint16_t> &depth)
                 kGFRGB.get (GuidedFilterRGB<GuidedFilterRGBConfig::SEPARATED>::Memory::D_OUT_G);
             kPC8D.get (RGBDTo8D::Memory::D_IN_B) = 
                 kGFRGB.get (GuidedFilterRGB<GuidedFilterRGBConfig::SEPARATED>::Memory::D_OUT_B);
-            kPC8D.init (640, 480, 595.f, 1.f / scaling, Staging::NONE);
+            kPC8D.init (640, 480, 595.f, 1.f, 0, Staging::NONE);
 
             kGFRGB.write (GuidedFilterRGB<GuidedFilterRGBConfig::SEPARATED>::Memory::D_IN, rgb.data ());
             kGFDepth.write (GuidedFilterDepth::Memory::D_IN, depth.data ());

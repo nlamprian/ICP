@@ -18,7 +18,7 @@ find_path (
 )
 
 find_library ( 
-    ICP_LIB_ALGRITHMS 
+    ICP_LIB_ALGORITHMS 
     NAMES ICPAlgorithms 
     PATHS ${ICP_ROOT}/build/lib 
           ${ICP_ROOT}/../ICP-build/lib 
@@ -42,11 +42,11 @@ include ( FindPackageHandleStandardArgs )
 find_package_handle_standard_args ( 
     ICP 
     FOUND_VAR ICP_FOUND
-    REQUIRED_VARS ICP_INCLUDE_DIR ICP_LIB_ALGRITHMS ICP_LIB_HELPERFUNCS 
+    REQUIRED_VARS ICP_INCLUDE_DIR ICP_LIB_ALGORITHMS ICP_LIB_HELPERFUNCS 
 )
 
 if ( ICP_FOUND )
-    set ( ICP_LIBRARIES ${ICP_LIB_ALGRITHMS} ${ICP_LIB_HELPERFUNCS} )
+    set ( ICP_LIBRARIES ${ICP_LIB_ALGORITHMS} ${ICP_LIB_HELPERFUNCS} )
     message ( STATUS "Found ICP:" )
     message ( STATUS " - Includes: ${ICP_INCLUDE_DIR}" )
     message ( STATUS " - Libraries: ${ICP_LIBRARIES}" )
@@ -56,6 +56,6 @@ endif ( ICP_FOUND )
 
 mark_as_advanced ( 
     ICP_INCLUDE_DIR
-    ICP_LIB_ALGRITHMS 
+    ICP_LIB_ALGORITHMS 
     ICP_LIB_HELPERFUNCS 
 )

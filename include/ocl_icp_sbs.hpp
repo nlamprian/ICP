@@ -1,7 +1,7 @@
 /*! \file ocl_icp_sbs.hpp
  *  \brief Declares the classes for setting up the OpenCL %ICP pipeline.
  *  \author Nick Lamprianidis
- *  \version 1.0
+ *  \version 1.1.0
  *  \date 2015
  *  \copyright The MIT License (MIT)
  *  \par
