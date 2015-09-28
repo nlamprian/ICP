@@ -1,0 +1,5 @@
+<map id="step_by_step.cpp" name="step_by_step.cpp">
+<area shape="rect" id="node9" href="$ocl__icp__sbs_8hpp.html" title="Declares the classes for setting up the OpenCL ICP pipeline. " alt="" coords="558,80,673,107"/>
+<area shape="rect" id="node10" href="$algorithms_8hpp.html" title="Declares classes that organize the execution of OpenCL kernels. " alt="" coords="673,155,807,181"/>
+<area shape="rect" id="node11" href="$common_8hpp.html" title="Declares classes used by the OpenCL interface classes in cl_algo. " alt="" coords="687,229,811,256"/>
+</map>

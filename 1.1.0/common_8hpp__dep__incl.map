@@ -1,0 +1,13 @@
+<map id="common.hpp" name="common.hpp">
+<area shape="rect" id="node2" href="$algorithms_8hpp.html" title="Declares classes that organize the execution of OpenCL kernels. " alt="" coords="480,80,587,107"/>
+<area shape="rect" id="node3" href="$ocl__icp__reg_8hpp.html" title="Declares the classes for setting up the OpenCL ICP pipeline. " alt="" coords="139,155,252,181"/>
+<area shape="rect" id="node6" href="$ocl__icp__sbs_8hpp.html" title="Declares the classes for setting up the OpenCL ICP pipeline. " alt="" coords="277,155,392,181"/>
+<area shape="rect" id="node9" href="$algorithms_8cpp.html" title="Defines classes that organize the execution of OpenCL kernels. " alt="" coords="417,155,524,181"/>
+<area shape="rect" id="node10" href="$testsICP_8cpp.html" title="Google Test Unit Tests for the ICP kernels. " alt="" coords="548,155,647,181"/>
+<area shape="rect" id="node11" href="$testsReduce_8cpp.html" title="Google Test Unit Tests for the Reduce kernels. " alt="" coords="671,155,792,181"/>
+<area shape="rect" id="node12" href="$testsScan_8cpp.html" title="Google Test Unit Tests for the Scan kernels. " alt="" coords="817,155,924,181"/>
+<area shape="rect" id="node4" href="$ocl__icp__reg_8cpp.html" title="Defines the classes for setting up the OpenCL ICP pipeline. " alt="" coords="5,229,117,256"/>
+<area shape="rect" id="node5" href="$registration_8cpp.html" title="An example showcasing the use of the ICP class. " alt="" coords="142,229,252,256"/>
+<area shape="rect" id="node7" href="$ocl__icp__sbs_8cpp.html" title="Defines the classes for setting up the OpenCL ICP pipeline. " alt="" coords="277,229,392,256"/>
+<area shape="rect" id="node8" href="$step__by__step_8cpp.html" title="An example showcasing the progress of the ICP pipeline. " alt="" coords="417,229,543,256"/>
+</map>
