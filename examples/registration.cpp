@@ -62,6 +62,7 @@ int glWinId;
 
 // Model parameters
 int mouseX = -1, mouseY = -1;
+float dx = 0.f, dy = 0.f;
 float angleX = 0.f, angleY = 0.f;
 float zoom = 1.f;
 
@@ -124,6 +125,7 @@ void drawGLScene ()
     gluLookAt ( -7*angleX, -7*angleY, -1000.0,
                       0.0,       0.0,  2000.0,
                       0.0,      -1.0,     0.0 );
+    glTranslatef (dx, dy, 0.f);
 
     glutSwapBuffers ();
 }
@@ -142,7 +144,7 @@ void resizeGLScene (int width, int height)
     glViewport (0, 0, width, height);
     glMatrixMode (GL_PROJECTION);
     glLoadIdentity ();
-    gluPerspective (50.0, width / (float) height, 900.0, 11000.0);
+    gluPerspective (70.0, width / (float) height, 900.0, 11000.0);
     glMatrixMode (GL_MODELVIEW);
 }
 
@@ -164,6 +166,27 @@ void keyPressed (unsigned char key, int x, int y)
         case 'R':
         case 'r':
             icp->init (pc8d1, pc8d2);
+            break;
+    }
+}
+
+
+/*! \brief Arrow key callback for the window. */
+void arrowPressed (int key, int x, int y)
+{
+    switch (key)
+    {
+        case GLUT_KEY_RIGHT:
+            dx -= 200;
+            break;
+        case GLUT_KEY_LEFT:
+            dx += 200;
+            break;
+        case GLUT_KEY_DOWN:
+            dy -= 200;
+            break;
+        case GLUT_KEY_UP:
+            dy += 200;
             break;
     }
 }
@@ -224,6 +247,7 @@ void initGL (int argc, char **argv)
     glutIdleFunc (&idleGLScene);
     glutReshapeFunc (&resizeGLScene);
     glutKeyboardFunc (&keyPressed);
+    glutSpecialFunc (&arrowPressed);
     glutMotionFunc (&mouseMoved);
     glutMouseFunc (&mouseButtonPressed);
 
