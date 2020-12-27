@@ -540,7 +540,7 @@ The class creates its own buffers. If you would like to provide your own buffers
   <table class="params">
     <tr><td class="paramdir">[in]</td><td class="paramname">_m</td><td>number of points in the sets. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">_nr</td><td>number of fixed set representatives. </td></tr>
-    <tr><td class="paramdir">[in]</td><td class="paramname">_a</td><td>factor scaling the results of the distance calculations for the geometric \( x_g \) and photometric \( x_p \) dimensions of the \( x\epsilon\mathbb{R}^8 \) points. That is, \( \|x-x&#39;\|_2^2= f_g(a)\|x_g-x&#39;_g\|_2^2+f_p(a)\|x_p-x&#39;_p\|_2^2 \). For more info, look at <code>euclideanSquaredMetric8</code> in <a href="http://random-ball-cover.paign10.me">kernels/rbc_kernels.cl</a>. </td></tr>
+    <tr><td class="paramdir">[in]</td><td class="paramname">_a</td><td>factor scaling the results of the distance calculations for the geometric \( x_g \) and photometric \( x_p \) dimensions of the \( x\epsilon\mathbb{R}^8 \) points. That is, \( \|x-x&#39;\|_2^2= f_g(a)\|x_g-x&#39;_g\|_2^2+f_p(a)\|x_p-x&#39;_p\|_2^2 \). For more info, look at <code>euclideanSquaredMetric8</code> in <a href="https://random-ball-cover.nlamprian.me">kernels/rbc_kernels.cl</a>. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">_c</td><td>scaling factor for dealing with floating point arithmetic issues when computing the <code>S</code> matrix. </td></tr>
     <tr><td class="paramdir">[in]</td><td class="paramname">_staging</td><td>flag to indicate whether or not to instantiate the staging buffers. </td></tr>
   </table>

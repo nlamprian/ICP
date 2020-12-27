@@ -45,8 +45,8 @@
    &#160;<span id="projectnumber">1.1.0</span>
    </div>
   </td>
-  <td><a id="repo" href="https://github.com/pAIgn10/ICP"><i class="fa fa-github"></i><span id="repo-text">&nbsp;Hosted by GitHub</span></a></td>
-  <td id="projectlogo"><a href="http://paign10.me"><img alt="Logo" src="logo.png"/></a></td>
+  <td><a id="repo" href="https://github.com/nlamprian/ICP"><i class="fa fa-github"></i><span id="repo-text">&nbsp;Hosted by GitHub</span></a></td>
+  <td id="projectlogo"><a href="https://nlamprian.me"><img alt="Logo" src="logo.png"/></a></td>
  </tr>
  </tbody>
 </table>
@@ -104,7 +104,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <div class="textblock"><p><br />
  <code>ICP</code> is an implementation of the <b>Photogeometric Iterative Closest Point (ICP)</b> algorithm in OpenCL. <code>ICP</code> performs real-time frame-to-frame 3-D registration, utilizing both the <b>geometry</b> and the <b>texture</b> of a scene. This way, the geometric features can guide the registration process in situations where there are faintly textured regions, and the color can be used in those places with non-salient surface topology. The implemented framework is based on the paper <a href="http://ieeexplore.ieee.org/xpl/login.jsp?tp=&amp;arnumber=6130381&amp;url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6130381">Real-time RGB-D mapping and 3-D modeling on the GPU using the random ball cover data structure</a> by Neumann et al.</p>
 <div class="image">
-<img src="http://i76.photobucket.com/albums/j16/paign10/icp_step_by_step_zps7pvd5zhn.gif"  border="0" alt=" photo icp_step_by_step_zps7pvd5zhn.gif"/>
+<img src="https://github.com/nlamprian/ICP/wiki/assets/icp_step_by_step.gif"  border="0" alt=" photo icp_step_by_step_zps7pvd5zhn.gif"/>
 </div>
 <p>Currently, there are two options for the rotation estimation step. One that uses <b>rotation matrices</b> and estimates the rotation by performing <b>Singular Value Decomposition</b> on the <code>CPU</code>. The other uses <b>unit quaternions</b> and estimates the rotation based on the <b>Power Method</b>. The rest of the computational load is executed exclusively on the <code>GPU</code>. Both resulting pipelines are able to perform one <code>ICP iteration</code> in about <code>1.1 millisecond</code>, for input sets of <code>|F|=|M|=16384</code> landmarks and <code>|R|=256</code> representative points. <br />
 <br />
@@ -112,13 +112,13 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>Note</h1>
 <hr/>
 <p> The project was developed and tested on <code>Ubuntu 14.04.2</code>, on a system with an <code>AMD R9 270X</code> GPU.</p>
-<p>The complete <code>documentation</code> is available <a href="http://icp.paign10.me">here</a>.</p>
-<p>For more details on the implemented algorithms, take a look at the project's <a href="https://github.com/pAIgn10/ICP/wiki/Algorithms">wiki</a>. <br />
+<p>The complete <code>documentation</code> is available <a href="https://icp.nlamprian.me">here</a>.</p>
+<p>For more details on the implemented algorithms, take a look at the project's <a href="https://github.com/nlamprian/ICP/wiki/Algorithms">wiki</a>. <br />
 <br />
 </p>
 <h1>Dependencies</h1>
 <hr/>
-<p> The project has dependencies on the <a href="https://github.com/pAIgn10/CLUtils">CLUtils</a>, <a href="https://github.com/pAIgn10/GuidedFilter">GuidedFilter</a>, <a href="https://github.com/pAIgn10/RandomBallCover">RandomBallCover</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> libraries.</p>
+<p> The project has dependencies on the <a href="https://github.com/nlamprian/CLUtils">CLUtils</a>, <a href="https://github.com/nlamprian/GuidedFilter">GuidedFilter</a>, <a href="https://github.com/nlamprian/RandomBallCover">RandomBallCover</a>, and <a href="http://eigen.tuxfamily.org/index.php?title=Main_Page">Eigen</a> libraries.</p>
 <p>All these dependencies are automatically downloaded by cmake, if they are not available on your system. Please note that you'll have to <a href="http://eigen.tuxfamily.org/index.php?title=Mercurial">configure Mercurial</a> before Eigen is downloaded. <br />
 <br />
 </p>
@@ -130,7 +130,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Search');
 <h1>Compilation</h1>
 <hr/>
 <blockquote class="doxtable">
-<p>git clone <a href="https://github.com/pAIgn10/ICP.git">https://github.com/pAIgn10/ICP.git</a> <br />
+<p>git clone <a href="https://github.com/nlamprian/ICP.git">https://github.com/nlamprian/ICP.git</a> <br />
  cd ICP</p>
 <p>mkdir build <br />
  cd build</p>
