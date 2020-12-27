@@ -2,7 +2,7 @@
 <br>
 `%ICP` is an implementation of the **Photogeometric Iterative Closest Point (%ICP)** algorithm in OpenCL. `%ICP` performs real-time frame-to-frame 3-D registration, utilizing both the **geometry** and the **texture** of a scene. This way, the geometric features can guide the registration process in situations where there are faintly textured regions, and the color can be used in those places with non-salient surface topology. The implemented framework is based on the paper [Real-time RGB-D mapping and 3-D modeling on the GPU using the random ball cover data structure](http://ieeexplore.ieee.org/xpl/login.jsp?tp=&arnumber=6130381&url=http%3A%2F%2Fieeexplore.ieee.org%2Fxpls%2Fabs_all.jsp%3Farnumber%3D6130381) by Neumann et al.
 
-<img src="http://i76.photobucket.com/albums/j16/paign10/icp_step_by_step_zps7pvd5zhn.gif" border="0" alt=" photo icp_step_by_step_zps7pvd5zhn.gif"/>
+<img src="https://github.com/nlamprian/ICP/wiki/assets/icp_step_by_step.gif" border="0" alt=" photo icp_step_by_step_zps7pvd5zhn.gif"/>
 
 Currently, there are two options for the rotation estimation step. One that uses **rotation matrices** and estimates the rotation by performing **Singular Value Decomposition** on the `CPU`. The other uses **unit quaternions** and estimates the rotation based on the **Power Method**. The rest of the computational load is executed exclusively on the `GPU`. Both resulting pipelines are able to perform one `%ICP iteration` in about `1.1 millisecond`, for input sets of `|F|=|M|=16384` landmarks and `|R|=256` representative points.
 <br><br>
@@ -11,14 +11,14 @@ Currently, there are two options for the rotation estimation step. One that uses
 <hr>
 The project was developed and tested on `Ubuntu 14.04.2`, on a system with an `AMD R9 270X` GPU.
 
-The complete `documentation` is available [here](http://icp.paign10.me).
+The complete `documentation` is available [here](https://icp.nlamprian.me).
 
-For more details on the implemented algorithms, take a look at the project's [wiki](https://github.com/pAIgn10/ICP/wiki/Algorithms).
+For more details on the implemented algorithms, take a look at the project's [wiki](https://github.com/nlamprian/ICP/wiki/Algorithms).
 <br><br>
 
 # Dependencies
 <hr>
-The project has dependencies on the [CLUtils](https://github.com/pAIgn10/CLUtils), [GuidedFilter](https://github.com/pAIgn10/GuidedFilter), [RandomBallCover](https://github.com/pAIgn10/RandomBallCover), and [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) libraries.
+The project has dependencies on the [CLUtils](https://github.com/nlamprian/CLUtils), [GuidedFilter](https://github.com/nlamprian/GuidedFilter), [RandomBallCover](https://github.com/nlamprian/RandomBallCover), and [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) libraries.
 
 All these dependencies are automatically downloaded by cmake, if they are not available on your system. Please note that you'll have to [configure Mercurial](http://eigen.tuxfamily.org/index.php?title=Mercurial) before Eigen is downloaded.
 <br><br>
@@ -31,7 +31,7 @@ There are three applications. `kinect_frame_grabber` that is able to capture poi
 # Compilation
 <hr>
 
-> git clone https://github.com/pAIgn10/ICP.git <br>
+> git clone https://github.com/nlamprian/ICP.git <br>
 > cd %ICP
 > 
 > mkdir build <br>

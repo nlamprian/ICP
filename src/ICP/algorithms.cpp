@@ -40,7 +40,7 @@
  *        environment. This means, there is a known context on which they will 
  *        operate, there is a known command queue which they will use, and all 
  *        the necessary kernel code has been compiled. For more info on **CLUtils**, 
- *        you can check the [online documentation](http://clutils.paign10.me/).
+ *        you can check the [online documentation](https://clutils.nlamprian.me/).
  */
 namespace cl_algo
 {
@@ -3205,7 +3205,7 @@ namespace ICP
      *                the \f$ x\epsilon\mathbb{R}^8 \f$ points. That is, \f$ \|x-x'\|_2^2= 
      *                f_g(a)\|x_g-x'_g\|_2^2+f_p(a)\|x_p-x'_p\|_2^2 \f$. For more info, 
      *                look at `euclideanSquaredMetric8` in [kernels/rbc_kernels.cl]
-     *                (http://random-ball-cover.paign10.me).
+     *                (https://random-ball-cover.nlamprian.me).
      *  \param[in] _c scaling factor for dealing with floating point arithmetic 
      *                issues when computing the `S` matrix.
      *  \param[in] _staging flag to indicate whether or not to instantiate the staging buffers.
@@ -3599,7 +3599,7 @@ namespace ICP
      *                the \f$ x\epsilon\mathbb{R}^8 \f$ points. That is, \f$ \|x-x'\|_2^2= 
      *                f_g(a)\|x_g-x'_g\|_2^2+f_p(a)\|x_p-x'_p\|_2^2 \f$. For more info, 
      *                look at `euclideanSquaredMetric8` in [kernels/rbc_kernels.cl]
-     *                (http://random-ball-cover.paign10.me).
+     *                (https://random-ball-cover.nlamprian.me).
      *  \param[in] _c scaling factor for dealing with floating point arithmetic 
      *                issues when computing the `S` matrix.
      *  \param[in] _staging flag to indicate whether or not to instantiate the staging buffers.
@@ -4007,7 +4007,7 @@ namespace ICP
      *                the \f$ x\epsilon\mathbb{R}^8 \f$ points. That is, \f$ \|x-x'\|_2^2= 
      *                f_g(a)\|x_g-x'_g\|_2^2+f_p(a)\|x_p-x'_p\|_2^2 \f$. For more info, 
      *                look at `euclideanSquaredMetric8` in [kernels/rbc_kernels.cl]
-     *                (http://random-ball-cover.paign10.me).
+     *                (https://random-ball-cover.nlamprian.me).
      *  \param[in] _c scaling factor for dealing with floating point arithmetic 
      *                issues when computing the `S` matrix.
      *  \param[in] _staging flag to indicate whether or not to instantiate the staging buffers.
@@ -4395,7 +4395,7 @@ namespace ICP
      *                the \f$ x\epsilon\mathbb{R}^8 \f$ points. That is, \f$ \|x-x'\|_2^2= 
      *                f_g(a)\|x_g-x'_g\|_2^2+f_p(a)\|x_p-x'_p\|_2^2 \f$. For more info, 
      *                look at `euclideanSquaredMetric8` in [kernels/rbc_kernels.cl]
-     *                (http://random-ball-cover.paign10.me).
+     *                (https://random-ball-cover.nlamprian.me).
      *  \param[in] _c scaling factor for dealing with floating point arithmetic 
      *                issues when computing the `S` matrix.
      *  \param[in] _staging flag to indicate whether or not to instantiate the staging buffers.
@@ -4766,7 +4766,7 @@ namespace ICP
      *                the \f$ x\epsilon\mathbb{R}^8 \f$ points. That is, \f$ \|x-x'\|_2^2= 
      *                f_g(a)\|x_g-x'_g\|_2^2+f_p(a)\|x_p-x'_p\|_2^2 \f$. For more info, 
      *                look at `euclideanSquaredMetric8` in [kernels/rbc_kernels.cl]
-     *                (http://random-ball-cover.paign10.me).
+     *                (https://random-ball-cover.nlamprian.me).
      *  \param[in] _c scaling factor for dealing with floating point arithmetic 
      *                issues when computing the `S` matrix.
      *  \param[in] _max_iterations maximum number of iterations that a registration is allowed to perform.
